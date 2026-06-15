@@ -2,10 +2,13 @@ services:
   - type: web
     name: shopnest-backend
     runtime: python
+    pythonVersion: 3.11
     region: singapore
     rootDir: Backend
     buildCommand: pip install -r requirements.txt
-    startCommand: python3 -m uvicorn server:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
