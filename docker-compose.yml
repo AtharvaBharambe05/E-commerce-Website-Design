@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./Backend
+    container_name: shopnest_backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - SECRET_KEY=${SECRET_KEY}
+    expose:
+      - "8000"
+    networks:
+      - shopnest
+
+  frontend:
+    build:
+      context: ./Frontend
+      args:
+        - VITE_API_URL=http://13.232.189.220:8000
+    container_name: shopnest_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - shopnest
+
+networks:
+  shopnest:
+    driver: bridge
